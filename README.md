@@ -4,9 +4,12 @@
 
 <div align="center">
 
-[![Discord](https://img.shields.io/discord/1296157888343179264?color=8c03fc&label=Discord&logo=discord&logoColor=white)](https://discord.gg/uY5J3RwmTX)  
-[![Modrinth](https://img.shields.io/modrinth/dt/qESHWJ0N?style=flat&logo=modrinth)](https://modrinth.com)
-
+<a href="https://discord.gg/uY5J3RwmTX">
+  <img src="https://img.shields.io/badge/Discord-32%20online-ababab?labelColor=5a228f&style=flat&logo=discord&logoColor=white" alt="Discord Badge" />
+</a>
+<a href="https://modrinth.com">
+  <img src="https://img.shields.io/badge/downloads-5-0ad171?style=flat&logo=modrinth&logoColor=white" alt="Downloads Badge" />
+</a>
 </div>
 
 Enhance your discord activity looks with tons of anime icons or hypixel logo and much more!
