@@ -116,11 +116,11 @@ idea {
 tasks.withType<ProcessResources>().configureEach {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     with(copySpec {
-        from(rootProject.file("src/lang")).include("*.json").into("assets/skyblockrpc/lang")
+        from(rootProject.file("src/lang")).include("*.json").into("assets/skyweeb/lang")
     })
 }
 
-val archiveName = "SkyBlockRpc"
+val archiveName = "SkyWeeb"
 
 base {
     archivesName.set("$archiveName-${archivesName.get()}")

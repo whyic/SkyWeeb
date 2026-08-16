@@ -1,8 +1,7 @@
-# Contributing to SkyBlockRPC
+# Contributing to SkyWeeb
 
-## Shared Guide
-All projects follow a similar structure. Please check out the shared guide for general contribution information:
-https://github.com/meowdding/.github/blob/main/CONTRIBUTING.md
+## General Guidelines
+Our projects share a common foundation. For standard contribution rules and setup, please refer to the [Whyic Shared Contribution Guide](https://github.com/whyic/SkyWeeb/blob/main/CONTRIBUTING.md).
 
-## SkyBlockRPC Specific Information
-Details specific to contributing to the SkyBlockRPC project will be added here.
+## Project-Specific Details
+Specific guidelines and instructions unique to contributing to SkyWeeb will be documented here soon.

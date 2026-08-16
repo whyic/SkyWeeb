@@ -1,11 +1,11 @@
-package me.owdding.skyblockrpc
+package me.whyic.skyweeb
 
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.teamresourceful.resourcefulconfig.api.client.ResourcefulConfigScreen
 import com.teamresourceful.resourcefulconfig.api.loader.Configurator
 import me.owdding.lib.utils.MeowddingUpdateChecker
-import me.owdding.skyblockrpc.config.Config
-import me.owdding.skyblockrpc.rpc.RPCClient
+import me.whyic.skyweeb.config.Config
+import me.whyic.skyweeb.rpc.RPCClient
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.loader.api.FabricLoader
@@ -27,15 +27,15 @@ import tech.thatgravyboat.skyblockapi.utils.text.TextStyle.color
 import tech.thatgravyboat.skyblockapi.utils.text.TextStyle.hover
 import tech.thatgravyboat.skyblockapi.utils.text.TextStyle.url
 
-object SkyBlockRPC : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyBlockRPC") {
+object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWeeb") {
 
-    val MOD_ID = "skyblockrpc"
+    val MOD_ID = "skyweeb"
     val SELF = FabricLoader.getInstance().getModContainer(MOD_ID).get()
     val VERSION: String = SELF.metadata.version.friendlyString
 
     val prefix = Text.join(
         Text.of("[").withColor(TextColor.GRAY),
-        Text.of("SbRPC").withColor(TextColor.AQUA),
+        Text.of("SkyWeeb").withColor(TextColor.AQUA),
         Text.of("] ").withColor(TextColor.GRAY),
     )
 
@@ -76,31 +76,77 @@ object SkyBlockRPC : ClientModInitializer, Logger by LoggerFactory.getLogger("Sk
 
         RPCClient.start()
 
+        val activeLogoId = when (Config.activeSeries) {
+            Series.BLEACH -> Config.bleachIcon.id
+            Series.ONE_PIECE -> Config.onePieceIcon.id
+            Series.CHAINSAW_MAN -> Config.chainsawManIcon.id
+            Series.FRIEREN -> Config.frierenIcon.id
+        }
+
         RPCClient.updateActivity {
             setDetails(Element.getPrimaryLine())
             setState(Element.getSecondaryLine()?.replace("Exploring ", "")?.trim())
 
-            // This line was missing in your text file! This restores the custom logo.
-            setLargeImage(Config.logo.id, "Yokoso watashi no Larp Society")
+            setLargeImage(activeLogoId, "Yokoso watashi no Larp Society")
 
             setStartTimestamp(skyblockJoin!!)
-            Config.buttons.take(2).forEach {
+            Buttons.entries.forEach {
                 addButton(it.toButton())
             }
         }
     }
 
-    enum class Logo(val id: String, val displayName: String) {
-        LOGO_SKY("logo_sky", "Logo v1"),
-        LOGO_TRANSPARENT("logo_transparent", "Logo v2"),
-        LOGO_TRANS("logo_trans", "Lesbian Logo"),
-        LOGO_HYPIXEL(id="logo_hypixel", "Hypixel"),
-        LOGO_ASA(id="logo_asa", "Asa"),
-        LOGO_AGLAEA(id="logo_aglaea", "Aglaea"),
-        LOGO_MAKIMA(id="logo_makima", "Makima"),
-        LOGO_XIAO(id="logo_xiao", "Xiao"),
+    enum class Series(val displayName: String) {
+        BLEACH("Bleach"),
+        ONE_PIECE("One Piece"),
+        CHAINSAW_MAN("Chainsaw Man"),
+        FRIEREN("Frieren"),
         ;
+        override fun toString() = displayName
+    }
 
+    enum class BleachLogo(val id: String, val displayName: String) {
+        DEFAULT("default", "Default"),
+        HYPIXEL("hypixel", "Hypixel"),
+        ORIHIME("bleach_orihime", "Orihime"),
+        ICHIGO("bleach_ichigo", "Ichigo"),
+        RUKIA("bleach_rukia", "Rukia"),
+        URYU("bleach_uryu", "Uryu"),
+        ;
+        override fun toString() = displayName
+    }
+
+    enum class OnePieceLogo(val id: String, val displayName: String) {
+        DEFAULT("default", "Default"),
+        HYPIXEL("hypixel", "Hypixel"),
+        LUFFY("onepiece_luffy", "Luffy"),
+        ZORO("onepiece_zoro", "Zoro"),
+        SANJI("onepiece_sanji", "Sanji"),
+        NAMI("onepiece_nami", "Nami"),
+        ROBIN("onepiece_robin", "Robin"),
+        ;
+        override fun toString() = displayName
+    }
+
+    enum class ChainsawManLogo(val id: String, val displayName: String) {
+        DEFAULT("default", "Default"),
+        HYPIXEL("hypixel", "Hypixel"),
+        DENJI("csm_denji", "Denji"),
+        POWER("csm_power", "Power"),
+        AKI("csm_aki", "Aki"),
+        MAKIMA("csm_makima", "Makima"),
+        ;
+        override fun toString() = displayName
+    }
+
+    enum class FrierenLogo(val id: String, val displayName: String) {
+        DEFAULT("default", "Default"),
+        HYPIXEL("hypixel", "Hypixel"),
+        FRIEREN("frieren_frieren", "Frieren"),
+        FERN("frieren_fern", "Fern"),
+        STARK("frieren_stark", "Stark"),
+        HIMMEL("frieren_himmel", "Himmel"),
+        ;
         override fun toString() = displayName
     }
 
@@ -139,7 +185,6 @@ object SkyBlockRPC : ClientModInitializer, Logger by LoggerFactory.getLogger("Sk
                 }.sendWithPrefix()
             }
 
-            // This correctly calls the auto-generated library UI again
             callback {
                 McClient.setScreenAsync {
                     ResourcefulConfigScreen.getFactory(MOD_ID).apply(null)
@@ -147,7 +192,8 @@ object SkyBlockRPC : ClientModInitializer, Logger by LoggerFactory.getLogger("Sk
             }
         }
 
-        event.register("sbrpc") { rpcCommand() }
+        event.register("swrpc") { rpcCommand() }
+        event.register("skyweeb") { rpcCommand() }
         event.register("rpc") { rpcCommand() }
     }
 }

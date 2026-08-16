@@ -1,6 +1,6 @@
-package me.owdding.skyblockrpc
+package me.whyic.skyweeb
 
-import me.owdding.skyblockrpc.config.Config
+import me.whyic.skyweeb.config.Config
 import tech.thatgravyboat.skyblockapi.api.profile.currency.CurrencyAPI
 import tech.thatgravyboat.skyblockapi.utils.extentions.toFormattedString
 
@@ -18,8 +18,8 @@ enum class Element(val example: String, val getter: () -> String) {
     ISLAND("Island: The End", {
         "Zone: ${SkyBlockTracker.currentZone}"
     }),
-    AREA("📍 Auction House", {
-        "📍 ${SkyBlockTracker.currentZone}"
+    AREA("✦ Auction House", {
+        "✦ ${SkyBlockTracker.currentZone}"
     }),
     ISLAND_AREA("The End - Auction House", {
         "Exploring ${SkyBlockTracker.currentZone}"
@@ -30,8 +30,8 @@ enum class Element(val example: String, val getter: () -> String) {
     CUSTOM_TEXT("Custom Text", {
         Config.customText
     }),
-    ; // <-- This little semicolon is what breaks everything if it gets deleted!
-
+    ;
+    
     override fun toString() = example
 
     companion object {

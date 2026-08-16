@@ -4,9 +4,9 @@
         "allowReferences": true,
         "allowTags": true,
         "objectAsKeys": true,
-        "prefix": "skyblockrpc"
+        "prefix": "skyweeb"
     },
-    "@value": "SkyBlock RPC",
+    "@value": "SkyWeeb",
     "config": {
         "primary_line": {
             "@value": "Primary Line",
@@ -30,24 +30,25 @@
             "@value": "Time Between Rotations",
             "desc": "The time in seconds between each rotation of the primary and secondary lines."
         },
-        "buttons": {
-            "@value": "Buttons",
-            "desc": [
-                "The buttons that are displayed in the rich presence.",
-                "You can add up to two buttons; if more are added, it will take the first two."
-            ]
+        "active_series": {
+            "@value": "Active Series",
+            "desc": "Selects which anime category's logo set is currently active."
         },
-        "logo": {
-            "@value": "Logo",
-            "desc": "The logo that is displayed in the rich presence."
+        "bleach_icon": {
+            "@value": "Bleach",
+            "desc": "Choose the specific Bleach logo or fallback icon."
         },
-        "client_id": {
-            "@value": "Client ID",
-            "desc": [
-                "The Client ID used for the Discord Rich Presence.",
-                "<red>Don't change this unless you know what you're doing!</red>",
-                "Needs a restart to take effect."
-            ]
+        "one_piece_icon": {
+            "@value": "One Piece",
+            "desc": "Choose the specific One Piece logo or fallback icon."
+        },
+        "chainsaw_man_icon": {
+            "@value": "Chainsaw Man",
+            "desc": "Choose the specific Chainsaw Man logo or fallback icon."
+        },
+        "frieren_icon": {
+            "@value": "Frieren",
+            "desc": "Choose the specific Frieren logo or fallback icon."
         }
     }
 }

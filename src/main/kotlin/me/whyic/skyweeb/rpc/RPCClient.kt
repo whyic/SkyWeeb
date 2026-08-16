@@ -1,4 +1,4 @@
-package me.owdding.skyblockrpc.rpc
+package me.whyic.skyweeb.rpc
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -8,14 +8,18 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.concurrent.CompletableFuture
 
-// Renamed to absolutely guarantee no conflicts!
 data class DiscordButton(val label: String, val url: String)
 
 object RPCClient {
     private var pipe: RandomAccessFile? = null
-    private val logger = LoggerFactory.getLogger("SkyBlockRPC-IPC")
+    private val logger = LoggerFactory.getLogger("SkyWeeb-IPC")
     private var isConnected = false
     private var isConnecting = false
+
+    // TODO: confirm this is the correct/current Discord application Client ID —
+    // it doesn't match either value seen elsewhere in the codebase (Config.kt default,
+    // or what was showing in your in-game config screen). Only one hardcoded value
+    // is actually used at runtime, and this is it.
     private const val CLIENT_ID = "1439506215095898142"
 
     fun start() {
@@ -62,7 +66,6 @@ object RPCClient {
             builder.action()
 
             val args = JsonObject()
-            // Fully qualified ProcessHandle so the compiler doesn't get lost
             val pid = java.lang.ProcessHandle.current().pid()
             args.addProperty("pid", pid)
             args.add("activity", builder.toJson())
@@ -103,7 +106,7 @@ object RPCClient {
         private var startTimestamp: Long? = null
         private var largeImageKey: String? = null
         private var largeImageText: String? = null
-        private val buttons = mutableListOf<DiscordButton>() // Updated to DiscordButton
+        private val buttons = mutableListOf<DiscordButton>()
 
         fun setDetails(details: String?) {
             this.details = details
@@ -124,23 +127,20 @@ object RPCClient {
 
         fun addButton(button: DiscordButton) {
             buttons.add(button)
-        } // Updated to DiscordButton
+        }
 
         fun toJson(): JsonObject {
             val activity = JsonObject()
 
-            // Standardize string fields
             if (!details.isNullOrBlank()) activity.addProperty("details", details)
             if (!state.isNullOrBlank()) activity.addProperty("state", state)
 
-            // Fix timestamp
             if (startTimestamp != null) {
                 val timestamps = JsonObject()
                 timestamps.addProperty("start", startTimestamp!! / 1000)
                 activity.add("timestamps", timestamps)
             }
 
-            // Standardize assets
             if (largeImageKey != null || largeImageText != null) {
                 val assets = JsonObject()
                 if (largeImageKey != null) assets.addProperty("large_image", largeImageKey)
@@ -148,8 +148,6 @@ object RPCClient {
                 activity.add("assets", assets)
             }
 
-            // Add the 'type' field which is missing in 26.1 but required by Discord
-            // Type 0 = Playing
             activity.addProperty("type", 0)
 
             if (buttons.isNotEmpty()) {

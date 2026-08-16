@@ -1,42 +1,42 @@
-# SkyBlock RPC License v1
+# SkyWeeb License v2
 
 ### 0. Definitions
 
 "Code" refers to:
-1. Any file found in the `.../resources/repo/...` directory
-2. Any file found in the `buildSrc/...` directory
-3. Source files, which refers to
-    1. Files ending in `.java` and `.kt`
-4. Script files, which refers to
-    1. Files ending in `.kts`
-5. Shader files, which refers to
-    1. Files ending in `.fsh` and `.vsh`
+1. Any file found in the `.../resources/repo/...` directory[cite: 1]
+2. Any file found in the `buildSrc/...` directory[cite: 1]
+3. Source files, which refers to[cite: 1]
+    1. Files ending in `.java` and `.kt`[cite: 1]
+4. Script files, which refers to[cite: 1]
+    1. Files ending in `.kts`[cite: 1]
+5. Shader files, which refers to[cite: 1]
+    1. Files ending in `.fsh` and `.vsh`[cite: 1]
 
-"Non-Code" refers to any file not covered under the definition of Code.
+"Non-Code" refers to any file not covered under the definition of Code.[cite: 1]
 
 ### 1. Code
 
-Code is licensed under the MIT License (as provided below), with the additional requirement that any redistribution, reuse, or derivative work that includes Code must contain a clear notice that the Code originates from the "SkyBlock RPC" mod.
+Code is licensed under the MIT License (as provided below), with the additional requirement that any redistribution, reuse, or derivative work that includes Code must contain a clear notice that the Code originates from the "SkyWeeb" mod.[cite: 1]
 
 #### MIT License (Modified for Attribution)
 
-> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:[cite: 1]
 
 > Attribution Requirement:
 Any redistribution or use of the Code must include a clear notice stating:
-"Portions of this code are from the SkyBlock-RPC mod."
+"Portions of this code are from the SkyWeeb mod."[cite: 1]
 
-> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.[cite: 1]
 
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.[cite: 1]
 
-Portions of this code are from the SkyBlock-RPC mod!!
+Portions of this code are from the SkyWeeb mod!![cite: 1]
 ---
 
 ### 2. Non-Code
 
-Non-Code content is licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.
+Non-Code content is licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.[cite: 1]
 
-> You are free to:
-> - Share — copy and redistribute the material in any medium or format
-> - Adapt — remix, transform, and build upon the material for any purpose, even commercially
+> You are free to:[cite: 1]
+> - Share — copy and redistribute the material in any medium or format[cite: 1]
+> - Adapt — remix, transform, and build upon the material for any purpose, even commercially[cite: 1]

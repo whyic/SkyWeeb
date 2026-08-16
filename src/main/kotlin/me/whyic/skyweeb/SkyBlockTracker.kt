@@ -1,4 +1,4 @@
-package me.owdding.skyblockrpc
+package me.whyic.skyweeb
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft
@@ -17,7 +17,6 @@ object SkyBlockTracker {
                 return@register
             }
 
-            // In 26.1+ Mojang mappings, mainHandStack is mainHandItem and name is hoverName
             val itemStack = client.player!!.mainHandItem
             heldItem = if (itemStack.isEmpty) "Empty Hand" else itemStack.hoverName.string
 
@@ -28,7 +27,6 @@ object SkyBlockTracker {
     private fun parseScoreboard(client: Minecraft) {
         val scoreboard = client.level?.scoreboard ?: return
 
-        // In 26.1+ Mojang mappings, ScoreboardDisplaySlot is just DisplaySlot
         val objective = scoreboard.getDisplayObjective(DisplaySlot.SIDEBAR)
         if (objective == null) {
             isOnSkyBlock = false
@@ -41,25 +39,20 @@ object SkyBlockTracker {
         isOnSkyBlock = cleanTitle.contains("SKYBLOCK", ignoreCase = true)
         if (!isOnSkyBlock) return
 
-        // In 26.1+ Mojang mappings, getting the entries is listPlayerScores()
         scoreboard.listPlayerScores(objective).forEach { score ->
             val scoreName = score.owner
             val team = scoreboard.getPlayersTeam(scoreName)
 
-            // In 26.1+ Mojang mappings, it's playerPrefix and playerSuffix
             val prefix = team?.playerPrefix?.string ?: ""
             val suffix = team?.playerSuffix?.string ?: ""
 
             val rawLine = "$prefix$scoreName$suffix"
             val cleanLine = rawLine.replace(Regex("§."), "").trim()
 
-            // Added support for the new 7th Anniversary map pin icon
-            if (cleanLine.contains("⏣") || cleanLine.contains("📍") || cleanLine.startsWith("Zone:")) {
-                currentZone = cleanLine
-                    .replace("⏣", "")
-                    .replace("📍", "")
-                    .replace("Zone:", "")
-                    .trim()
+            // (U+E067, decimal 57447)
+
+            if (cleanLine.isNotEmpty() && cleanLine[0].code == 57447) {
+                currentZone = cleanLine.substring(1).trim()
             }
         }
     }

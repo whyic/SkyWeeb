@@ -1,5 +1,8 @@
 [versions]
 
+skyblockapi = "4.1.3"
+meowdding-lib = "4.1.2"
+
 minecraft-range = "26.1.x"
 minecraft = "26.1.2"
 sbapi-mc-version = "26.1"
@@ -19,3 +22,5 @@ resourceful-lib = { module = "com.teamresourceful.resourcefullib:resourcefullib-
 resourceful-config = { module = "com.teamresourceful.resourcefulconfig:resourcefulconfig-fabric-26.1-rc-1", version.ref = "resourceful-config" }
 olympus = { module = "earth.terrarium.olympus:olympus-fabric-26.1-rc-1", version.ref = "olympus" }
 placeholders = { module = "eu.pb4:placeholder-api", version.ref = "placeholders" }
+skyblockapi = { module = "tech.thatgravyboat:skyblock-api", version.ref = "skyblockapi" }
+meowdding-lib = { module = "me.owdding.meowdding-lib:meowdding-lib", version.ref = "meowdding-lib" }

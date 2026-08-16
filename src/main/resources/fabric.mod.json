@@ -1,15 +1,15 @@
 {
     "schemaVersion": 1,
-    "id": "skyblockrpc",
+    "id": "skyweeb",
     "version": "${version}",
-    "name": "Hypixel Skyblock RPC",
+    "name": "SkyWeeb",
     "authors": ["whyic"],
     "license": "LGPL-3.0-or-later",
-    "icon": "assets/skyblockrpc/logo/smol_meow.png",
+    "icon": "assets/skyweeb/logo/smol_meow.png",
     "entrypoints": {
         "client": [
             {
-                "value": "me.owdding.skyblockrpc.SkyBlockRPC",
+                "value": "me.whyic.skyweeb.SkyWeeb",
                 "adapter": "kotlin"
             }
         ]
