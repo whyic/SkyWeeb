@@ -4,12 +4,8 @@
 
 <div align="center">
 
-<a href="https://discord.gg/uY5J3RwmTX" style="text-decoration: none;">
-  <img src="https://img.shields.io/badge/Discord-32%20online-ababab?labelColor=5a228f&style=flat&logo=discord&logoColor=white" alt="Discord Badge" />
-</a>
-<a href="https://modrinth.com" style="text-decoration: none;">
-  <img src="https://img.shields.io/badge/downloads-5-0ad171?style=flat&logo=modrinth&logoColor=white" alt="Downloads Badge" />
-</a>
+<a href="https://discord.gg/uY5J3RwmTX"><img src="https://img.shields.io/badge/Discord-32%20online-ababab?labelColor=5a228f&style=flat&logo=discord&logoColor=white" alt="Discord Badge" style="border: none; text-decoration: none;" /></a>
+<a href="https://modrinth.com"><img src="https://img.shields.io/badge/downloads-5-0ad171?style=flat&logo=modrinth&logoColor=white" alt="Downloads Badge" style="border: none; text-decoration: none;" /></a>
 
 </div>
 
