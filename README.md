@@ -4,12 +4,13 @@
 
 <div align="center">
 
-<a href="https://discord.gg/uY5J3RwmTX">
+<a href="https://discord.gg/uY5J3RwmTX" style="text-decoration: none;">
   <img src="https://img.shields.io/badge/Discord-32%20online-ababab?labelColor=5a228f&style=flat&logo=discord&logoColor=white" alt="Discord Badge" />
 </a>
-<a href="https://modrinth.com">
+<a href="https://modrinth.com" style="text-decoration: none;">
   <img src="https://img.shields.io/badge/downloads-5-0ad171?style=flat&logo=modrinth&logoColor=white" alt="Downloads Badge" />
 </a>
+
 </div>
 
 Enhance your discord activity looks with tons of anime icons or hypixel logo and much more!
