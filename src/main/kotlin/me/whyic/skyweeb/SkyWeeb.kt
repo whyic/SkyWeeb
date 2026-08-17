@@ -85,8 +85,7 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
 
         RPCClient.updateActivity {
             setDetails(Element.getPrimaryLine())
-            setState(Element.getSecondaryLine()?.replace("Exploring ", "")?.trim())
-
+            setState(Element.getSecondaryLine()?.trim())
             setLargeImage(activeLogoId, "Yokoso watashi no Larp Society")
 
             setStartTimestamp(skyblockJoin!!)

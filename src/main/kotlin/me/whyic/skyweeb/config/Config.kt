@@ -27,7 +27,7 @@ object Config : ConfigKt("skyweeb/config") {
         translation = "skyweeb.config.primary_line"
     }
 
-    val secondaryLine by draggable(Element.ISLAND_AREA) {
+    val secondaryLine by draggable(Element.AREA) {
         translation = "skyweeb.config.secondary_line"
     }
 

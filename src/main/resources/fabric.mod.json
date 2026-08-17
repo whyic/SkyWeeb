@@ -5,7 +5,7 @@
     "name": "SkyWeeb",
     "authors": ["whyic"],
     "license": "LGPL-3.0-or-later",
-    "icon": "assets/skyweeb/logo/smol_meow.png",
+    "icon": "assets/skyweeb/logo/skyweeb.png",
     "entrypoints": {
         "client": [
             {

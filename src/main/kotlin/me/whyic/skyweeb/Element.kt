@@ -15,14 +15,8 @@ enum class Element(val example: String, val getter: () -> String) {
     BITS("Bits: 123,456", {
         "Bits: ${CurrencyAPI.bits.toFormattedString()}"
     }),
-    ISLAND("Island: The End", {
-        "Zone: ${SkyBlockTracker.currentZone}"
-    }),
     AREA("✦ Auction House", {
         "✦ ${SkyBlockTracker.currentZone}"
-    }),
-    ISLAND_AREA("The End - Auction House", {
-        "Exploring ${SkyBlockTracker.currentZone}"
     }),
     HELD_ITEM("Holding: Aspect of the End", {
         "Holding: ${SkyBlockTracker.heldItem}"
@@ -31,7 +25,7 @@ enum class Element(val example: String, val getter: () -> String) {
         Config.customText
     }),
     ;
-    
+
     override fun toString() = example
 
     companion object {
