@@ -4,7 +4,7 @@
     "version": "${version}",
     "name": "SkyWeeb",
     "authors": ["whyic"],
-    "license": "LGPL-3.0-or-later",
+        "license": "MIT",
     "icon": "assets/skyweeb/logo/skyweeb.png",
     "entrypoints": {
         "client": [
