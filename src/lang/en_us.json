@@ -48,7 +48,19 @@
         },
         "frieren_icon": {
             "@value": "Frieren",
-            "desc": "Choose the specific Frieren logo or fallback icon."
+            "desc": "Choose the specific Frieren logo or fallback icon.",
+
+            "custom_image_url": {
+                "@value": "Custom Image URL",
+                "desc": "A direct link to your own image (must start with http:// or https://). Used when \"Custom\" is the active series."
+            },
+
+            "rpc_enabled": {
+                "@value": "Presence Status",
+                "desc": "Turn off to stop showing your Hypixel SkyBlock activity on Discord."
+            }
+
+
         }
     }
 }

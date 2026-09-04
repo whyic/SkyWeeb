@@ -16,7 +16,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
 
     private companion object {
         const val PW = 620
-        const val PH = 520
+        const val PH = 560
         val BG        = 0xFF15131C.toInt()
         val HEADER_BG = 0xFF1C1926.toInt()
         val DIVIDER   = 0xFF2C2836.toInt()
@@ -29,10 +29,15 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
     }
 
     private var customTextBox: EditBox? = null
+    private var customUrlBox: EditBox? = null
+    private var presenceStatusButton: Button? = null
     private var px = 0
     private var py = 0
     private val toggleButtons = mutableMapOf<SkyWeeb.Series, Button>()
     private val rowDividerYs = mutableListOf<Int>()
+    private var presenceStatusRowY = 0
+
+    private val iconedSeries = SkyWeeb.Series.entries.filter { it != SkyWeeb.Series.CUSTOM }
 
     override fun init() {
         px = (width - PW) / 2
@@ -41,6 +46,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
         val fw = PW - 48
         val controlW = 140
         val controlX = px + PW - 24 - controlW
+
 
         rowDividerYs.clear()
         var y = py + 76
@@ -68,13 +74,13 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
         rowDividerYs.add(y + 34)
         y += 60
 
-        // 4 logo section rows: name+desc on the left, ON/OFF then icon-selector on the right
+        // Anime series rows: name+desc on the left, ON/OFF then icon-selector on the right
         val toggleW = 54
         val iconW = 130
         val iconX = px + PW - 24 - iconW
         val toggleX = iconX - 8 - toggleW
 
-        SkyWeeb.Series.entries.forEach { series ->
+        iconedSeries.forEach { series ->
             val toggleButton = Button.builder(toggleLabel(series)) {
                 Config.activeSeries = series
                 refreshToggleLabels()
@@ -93,6 +99,43 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
             y += 46
         }
 
+        // Custom row: toggle + a URL text box instead of an icon-cycle button
+        run {
+            val series = SkyWeeb.Series.CUSTOM
+            val toggleButton = Button.builder(toggleLabel(series)) {
+                Config.activeSeries = series
+                refreshToggleLabels()
+            }.bounds(toggleX, y, toggleW, 18).build()
+            addRenderableWidget(toggleButton)
+            toggleButtons[series] = toggleButton
+
+            customUrlBox = EditBox(font, iconX, y, iconW, 18, Component.empty()).also {
+                it.value = Config.customImageUrl
+                it.setMaxLength(300)
+                it.setHint(Component.literal("https://..."))
+                addRenderableWidget(it)
+            }
+
+            rowDividerYs.add(y + 34)
+            y += 46
+        }
+
+        // Presence Status row: master ON/OFF toggle for the whole RPC
+        run {
+            presenceStatusRowY = y
+            val presenceToggleW = 70
+            val presenceToggleX = px + PW - 24 - presenceToggleW
+            presenceStatusButton = Button.builder(presenceStatusLabel()) {
+                Config.rpcEnabled = !Config.rpcEnabled
+                SkyWeeb.updateDiscordRPC()
+                presenceStatusButton?.message = presenceStatusLabel()
+            }.bounds(presenceToggleX, y, presenceToggleW, 18).build()
+            addRenderableWidget(presenceStatusButton!!)
+
+            rowDividerYs.add(y + 34)
+            y += 46
+        }
+
         val halfW = (fw - 8) / 2
         addRenderableWidget(
             Button.builder(Component.literal("Edit Lines")) {
@@ -103,6 +146,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
         addRenderableWidget(
             Button.builder(Component.literal("Save & Close")) {
                 Config.customText = customTextBox?.value ?: Config.customText
+                Config.customImageUrl = customUrlBox?.value ?: Config.customImageUrl
                 onClose()
             }.bounds(fx + halfW + 8, py + PH - 40, halfW, 20).build()
         )
@@ -115,6 +159,9 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
     private fun toggleLabel(series: SkyWeeb.Series): Component =
         Component.literal(if (Config.activeSeries == series) "ON" else "OFF")
 
+    private fun presenceStatusLabel(): Component =
+        Component.literal(if (Config.rpcEnabled) "ON" else "OFF")
+
     private fun iconLabel(series: SkyWeeb.Series): Component = Component.literal(
         "${
             when (series) {
@@ -122,6 +169,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
                 SkyWeeb.Series.ONE_PIECE -> Config.onePieceIcon.displayName
                 SkyWeeb.Series.CHAINSAW_MAN -> Config.chainsawManIcon.displayName
                 SkyWeeb.Series.FRIEREN -> Config.frierenIcon.displayName
+                SkyWeeb.Series.CUSTOM -> "" // unreachable: CUSTOM is excluded from iconedSeries
             }
         } ▾"
     )
@@ -144,6 +192,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
                 val entries = SkyWeeb.FrierenLogo.entries
                 Config.frierenIcon = entries[(entries.indexOf(Config.frierenIcon) + 1) % entries.size]
             }
+            SkyWeeb.Series.CUSTOM -> {} // unreachable: CUSTOM is excluded from iconedSeries
         }
     }
 
@@ -179,8 +228,18 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
             y += 46
         }
 
+        g.text(font, "Presence Status", fx, y + 4, LABEL, false)
+        g.text(font, "Turn off to hide your activity from Discord.", fx, y + 16, DESC, false)
+        g.fill(fx, y + 34, px + PW - 24, y + 35, DIVIDER)
+        y += 46
+
         toggleButtons.forEach { (series, button) ->
             val color = if (Config.activeSeries == series) ON_GREEN else OFF_GREY
+            g.fill(button.x, button.y, button.x + button.width, button.y + button.height, color)
+        }
+
+        presenceStatusButton?.let { button ->
+            val color = if (Config.rpcEnabled) ON_GREEN else OFF_GREY
             g.fill(button.x, button.y, button.x + button.width, button.y + button.height, color)
         }
 

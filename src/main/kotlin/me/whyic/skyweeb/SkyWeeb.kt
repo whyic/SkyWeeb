@@ -64,6 +64,12 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
     }
 
     fun updateDiscordRPC() {
+        if (!Config.rpcEnabled) {
+            RPCClient.stop()
+            skyblockJoin = null
+            return
+        }
+
         if (!SkyBlockTracker.isOnSkyBlock) {
             RPCClient.stop()
             skyblockJoin = null
@@ -81,7 +87,12 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
             Series.ONE_PIECE -> Config.onePieceIcon.id
             Series.CHAINSAW_MAN -> Config.chainsawManIcon.id
             Series.FRIEREN -> Config.frierenIcon.id
+            Series.CUSTOM -> {
+                val url = Config.customImageUrl.trim()
+                if (url.startsWith("http://") || url.startsWith("https://")) url else "default"
+            }
         }
+
 
         RPCClient.updateActivity {
             setDetails(Element.getPrimaryLine())
@@ -100,6 +111,7 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
         ONE_PIECE("One Piece"),
         CHAINSAW_MAN("Chainsaw Man"),
         FRIEREN("Frieren"),
+        CUSTOM("Custom"),
         ;
         override fun toString() = displayName
     }
