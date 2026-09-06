@@ -38,7 +38,7 @@ object Config : ConfigKt("skyweeb/config") {
     var timeBetweenRotations by int(15) {
         translation = "skyweeb.config.time_between_rotations"
         slider = true
-        range = 5..60
+        range = 5..15
     }
 
     var activeSeries by enum(SkyWeeb.Series.BLEACH) {
@@ -50,7 +50,10 @@ object Config : ConfigKt("skyweeb/config") {
     var onePieceIcon by enum(SkyWeeb.OnePieceLogo.DEFAULT) { translation = "skyweeb.config.one_piece_icon" }
     var chainsawManIcon by enum(SkyWeeb.ChainsawManLogo.DEFAULT) { translation = "skyweeb.config.chainsaw_man_icon" }
     var frierenIcon by enum(SkyWeeb.FrierenLogo.DEFAULT) { translation = "skyweeb.config.frieren_icon" }
+    var customImageUrl by string("") {
+        translation = "skyweeb.config.custom_image_url"
     }
+}
 
 
 

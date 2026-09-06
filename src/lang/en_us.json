@@ -49,7 +49,10 @@
         "frieren_icon": {
             "@value": "Frieren",
             "desc": "Choose the specific Frieren logo or fallback icon."
-
+        },
+        "custom_image_url": {
+            "@value": "Coming Soon!",
+            "desc": "a feature which doesn't exist"
         }
     }
 }

@@ -30,7 +30,6 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
 
     private var customTextBox: EditBox? = null
     private var customUrlBox: EditBox? = null
-    // private var presenceStatusButton: Button? = null
     private var px = 0
     private var py = 0
     private val toggleButtons = mutableMapOf<SkyWeeb.Series, Button>()
@@ -47,7 +46,6 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
         val controlW = 140
         val controlX = px + PW - 24 - controlW
 
-
         rowDividerYs.clear()
         var y = py + 76
 
@@ -61,14 +59,14 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
         y += 60
 
         // Time Between Rotations row
-        val initSlider = (Config.timeBetweenRotations - 5).toDouble() / 55.0
+        val initSlider = (Config.timeBetweenRotations - 5).toDouble() / 10.0
         addRenderableWidget(object : AbstractSliderButton(controlX, y, controlW, 18, Component.empty(), initSlider) {
             init { updateMessage() }
             override fun updateMessage() {
-                setMessage(Component.literal("${Mth.clamp((value * 55 + 5).toInt(), 5, 60)}s"))
+                setMessage(Component.literal("${Mth.clamp((value * 10 + 5).toInt(), 5, 15)}s"))
             }
             override fun applyValue() {
-                Config.timeBetweenRotations = Mth.clamp((value * 55 + 5).toInt(), 5, 60)
+                Config.timeBetweenRotations = Mth.clamp((value * 10 + 5).toInt(), 5, 15)
             }
         })
         rowDividerYs.add(y + 34)
@@ -99,7 +97,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
             y += 46
         }
 
-        // Custom row: toggle + a URL text box instead of an icon-cycle button
+        // Custom row: toggle + URL text box at the very bottom
         run {
             val series = SkyWeeb.Series.CUSTOM
             val toggleButton = Button.builder(toggleLabel(series)) {
@@ -149,7 +147,6 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
     private fun toggleLabel(series: SkyWeeb.Series): Component =
         Component.literal(if (Config.activeSeries == series) "ON" else "OFF")
 
-
     private fun iconLabel(series: SkyWeeb.Series): Component = Component.literal(
         "${
             when (series) {
@@ -157,7 +154,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
                 SkyWeeb.Series.ONE_PIECE -> Config.onePieceIcon.displayName
                 SkyWeeb.Series.CHAINSAW_MAN -> Config.chainsawManIcon.displayName
                 SkyWeeb.Series.FRIEREN -> Config.frierenIcon.displayName
-                SkyWeeb.Series.CUSTOM -> "" // unreachable: CUSTOM is excluded from iconedSeries
+                SkyWeeb.Series.CUSTOM -> ""
             }
         } ▾"
     )
@@ -180,7 +177,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
                 val entries = SkyWeeb.FrierenLogo.entries
                 Config.frierenIcon = entries[(entries.indexOf(Config.frierenIcon) + 1) % entries.size]
             }
-            SkyWeeb.Series.CUSTOM -> {} // COMING SOON!
+            SkyWeeb.Series.CUSTOM -> {}
         }
     }
 
@@ -211,18 +208,18 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
         y += 60
 
         SkyWeeb.Series.entries.forEach { series ->
-            g.text(font, series.displayName, fx, y + 4, LABEL, false)
+            val title = if (series == SkyWeeb.Series.CUSTOM) "Custom Image URL" else series.displayName
+            val desc = if (series == SkyWeeb.Series.CUSTOM) "The URL for the custom image used in Discord RPC." else "Choose the specific ${series.displayName} logo or fallback icon."
+            g.text(font, title, fx, y + 4, LABEL, false)
+            g.text(font, desc, fx, y + 16, DESC, false)
             g.fill(fx, y + 34, px + PW - 24, y + 35, DIVIDER)
             y += 46
         }
-
-
 
         toggleButtons.forEach { (series, button) ->
             val color = if (Config.activeSeries == series) ON_GREEN else OFF_GREY
             g.fill(button.x, button.y, button.x + button.width, button.y + button.height, color)
         }
-
 
         super.extractRenderState(g, mx, my, pt)
     }
