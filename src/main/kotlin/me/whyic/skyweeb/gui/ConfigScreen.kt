@@ -180,7 +180,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
                 val entries = SkyWeeb.FrierenLogo.entries
                 Config.frierenIcon = entries[(entries.indexOf(Config.frierenIcon) + 1) % entries.size]
             }
-            SkyWeeb.Series.CUSTOM -> {} // unreachable: CUSTOM is excluded from iconedSeries
+            SkyWeeb.Series.CUSTOM -> {} // COMING SOON!
         }
     }
 
