@@ -45,11 +45,6 @@ object Config : ConfigKt("skyweeb/config") {
         translation = "skyweeb.config.active_series"
     }
 
-    var customImageUrl by string("") {
-        translation = "skyweeb.config.custom_image_url"
-    }
-
-
     var bleachIcon by enum(SkyWeeb.BleachLogo.DEFAULT) { translation = "skyweeb.config.bleach_icon" }
     var onePieceIcon by enum(SkyWeeb.OnePieceLogo.DEFAULT) { translation = "skyweeb.config.one_piece_icon" }
     var chainsawManIcon by enum(SkyWeeb.ChainsawManLogo.DEFAULT) { translation = "skyweeb.config.chainsaw_man_icon" }
