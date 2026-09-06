@@ -64,7 +64,6 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
     }
 
     fun updateDiscordRPC() {
-        // We removed the Config.rpcEnabled check here so it never stops unless they leave SkyBlock.
 
         if (!SkyTracker.isOnSkyBlock) {
             RPCClient.stop()
