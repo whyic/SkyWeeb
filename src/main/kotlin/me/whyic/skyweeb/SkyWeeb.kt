@@ -64,14 +64,10 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
     }
 
     fun updateDiscordRPC() {
-        /* if (!Config.rpcEnabled) {
-            RPCClient.stop()
-            skyblockJoin = null
-            return
-        } */
+        // We removed the Config.rpcEnabled check here so it never stops unless they leave SkyBlock.
 
         if (!SkyTracker.isOnSkyBlock) {
-        //    RPCClient.stop()
+            RPCClient.stop()
             skyblockJoin = null
             return
         }
@@ -80,7 +76,7 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
             skyblockJoin = System.currentTimeMillis()
         }
 
-        // RPCClient.start()
+        RPCClient.start()
 
         val activeLogoId = when (Config.activeSeries) {
             Series.BLEACH -> Config.bleachIcon.id
@@ -92,7 +88,6 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
                 if (url.startsWith("http://") || url.startsWith("https://")) url else "default"
             }
         }
-
 
         RPCClient.updateActivity {
             setDetails(Element.getPrimaryLine())

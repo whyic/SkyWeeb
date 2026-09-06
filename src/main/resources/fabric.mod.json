@@ -3,6 +3,7 @@
     "id": "skyweeb",
     "version": "${version}",
     "name": "SkyWeeb",
+    "description": "meow :3",
     "authors": ["whyic"],
         "license": "MIT",
     "icon": "assets/skyweeb/logo/skyweeb.png",
