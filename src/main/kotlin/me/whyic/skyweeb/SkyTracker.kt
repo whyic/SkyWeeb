@@ -5,7 +5,8 @@ import net.minecraft.client.Minecraft
 import net.minecraft.world.scores.DisplaySlot
 
 @Suppress("SpellCheckingInspection")
-object SkyBlockTracker {
+object SkyTracker {
+
     var currentZone: String = "Hub"
     var heldItem: String = "None"
     var isOnSkyBlock: Boolean = false
@@ -49,9 +50,9 @@ object SkyBlockTracker {
             val rawLine = "$prefix$scoreName$suffix"
             val cleanLine = rawLine.replace(Regex("§."), "").trim()
 
-            // (U+E067, decimal 57447)
-
-            if (cleanLine.isNotEmpty() && cleanLine[0].code == 57447) {
+            // 57447 (U+E067) = overworld decimal
+            // 57376 (U+E000) = same shi but in rift (it's an hourglass)
+            if (cleanLine.isNotEmpty() && (cleanLine[0].code == 57447 || cleanLine[0].code == 57376)) {
                 currentZone = cleanLine.substring(1).trim()
             }
         }

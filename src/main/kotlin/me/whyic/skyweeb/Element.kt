@@ -6,7 +6,7 @@ import tech.thatgravyboat.skyblockapi.utils.extentions.toFormattedString
 
 enum class Element(val example: String, val getter: () -> String) {
     PURSE("Purse: 123,456 (Motes in Rift)", {
-        if (SkyBlockTracker.currentZone.contains("Rift", ignoreCase = true)) "Motes: ${CurrencyAPI.motes.toFormattedString()}"
+        if (SkyTracker.currentZone.contains("Rift", ignoreCase = true)) "Motes: ${CurrencyAPI.motes.toFormattedString()}"
         else "Purse: ${CurrencyAPI.purse.toFormattedString()}"
     }),
     BANK("Bank: 123,456", {
@@ -16,10 +16,10 @@ enum class Element(val example: String, val getter: () -> String) {
         "Bits: ${CurrencyAPI.bits.toFormattedString()}"
     }),
     AREA("✦ Auction House", {
-        "✦ ${SkyBlockTracker.currentZone}"
+        "✦ ${SkyTracker.currentZone}"
     }),
     HELD_ITEM("Holding: Aspect of the End", {
-        "Holding: ${SkyBlockTracker.heldItem}"
+        "Holding: ${SkyTracker.heldItem}"
     }),
     CUSTOM_TEXT("Custom Text", {
         Config.customText

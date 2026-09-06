@@ -54,8 +54,8 @@ object Config : ConfigKt("skyweeb/config") {
     var onePieceIcon by enum(SkyWeeb.OnePieceLogo.DEFAULT) { translation = "skyweeb.config.one_piece_icon" }
     var chainsawManIcon by enum(SkyWeeb.ChainsawManLogo.DEFAULT) { translation = "skyweeb.config.chainsaw_man_icon" }
     var frierenIcon by enum(SkyWeeb.FrierenLogo.DEFAULT) { translation = "skyweeb.config.frieren_icon" }
-    var rpcEnabled by boolean(true) {
-        translation = "skyweeb.config.rpc_enabled"
+    // var rpcEnabled by boolean(true) {
+    //    translation = "skyweeb.config.rpc_enabled"
     }
 
-}
+

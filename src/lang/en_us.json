@@ -53,10 +53,6 @@
         "custom_image_url": {
             "@value": "Custom Image URL",
             "desc": "A direct link to your own image (must start with http:// or https://). Used when \"Custom\" is the active series."
-        },
-        "rpc_enabled": {
-            "@value": "Presence Status",
-            "desc": "Hmmm...hiding from someone aren't you?"
         }
     }
 }

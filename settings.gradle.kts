@@ -1,4 +1,4 @@
-rootProject.name = "SkyBlockRPC"
+rootProject.name = "SkyWeeb"
 
 pluginManagement {
     repositories {

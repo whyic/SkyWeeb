@@ -30,7 +30,7 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
 
     private var customTextBox: EditBox? = null
     private var customUrlBox: EditBox? = null
-    private var presenceStatusButton: Button? = null
+    // private var presenceStatusButton: Button? = null
     private var px = 0
     private var py = 0
     private val toggleButtons = mutableMapOf<SkyWeeb.Series, Button>()
@@ -123,14 +123,14 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
         // Presence Status row: master ON/OFF toggle for the whole RPC
         run {
             presenceStatusRowY = y
-            val presenceToggleW = 70
+            /* val presenceToggleW = 70
             val presenceToggleX = px + PW - 24 - presenceToggleW
             presenceStatusButton = Button.builder(presenceStatusLabel()) {
                 Config.rpcEnabled = !Config.rpcEnabled
                 SkyWeeb.updateDiscordRPC()
                 presenceStatusButton?.message = presenceStatusLabel()
             }.bounds(presenceToggleX, y, presenceToggleW, 18).build()
-            addRenderableWidget(presenceStatusButton!!)
+            addRenderableWidget(presenceStatusButton!!) */
 
             rowDividerYs.add(y + 34)
             y += 46
@@ -159,8 +159,8 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
     private fun toggleLabel(series: SkyWeeb.Series): Component =
         Component.literal(if (Config.activeSeries == series) "ON" else "OFF")
 
-    private fun presenceStatusLabel(): Component =
-        Component.literal(if (Config.rpcEnabled) "ON" else "OFF")
+    // private fun presenceStatusLabel(): Component =
+    //    Component.literal(if (Config.rpcEnabled) "ON" else "OFF")
 
     private fun iconLabel(series: SkyWeeb.Series): Component = Component.literal(
         "${
@@ -228,20 +228,20 @@ class ConfigScreen(private val parent: Screen? = null) : Screen(Component.litera
             y += 46
         }
 
-        g.text(font, "Presence Status", fx, y + 4, LABEL, false)
+        /* g.text(font, "Presence Status", fx, y + 4, LABEL, false)
         g.text(font, "Turn off to hide your activity from Discord.", fx, y + 16, DESC, false)
         g.fill(fx, y + 34, px + PW - 24, y + 35, DIVIDER)
-        y += 46
+        y += 46 */
 
         toggleButtons.forEach { (series, button) ->
             val color = if (Config.activeSeries == series) ON_GREEN else OFF_GREY
             g.fill(button.x, button.y, button.x + button.width, button.y + button.height, color)
         }
 
-        presenceStatusButton?.let { button ->
+        /* presenceStatusButton?.let { button ->
             val color = if (Config.rpcEnabled) ON_GREEN else OFF_GREY
             g.fill(button.x, button.y, button.x + button.width, button.y + button.height, color)
-        }
+        } */
 
         super.extractRenderState(g, mx, my, pt)
     }

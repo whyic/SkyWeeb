@@ -48,7 +48,7 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
         Config.register(configurator)
         MeowddingUpdateChecker("qESHWJ0N", SELF, ::sendUpdateMessage)
         SkyBlockAPI.eventBus.register(this)
-        SkyBlockTracker.register()
+        SkyTracker.register()
 
         ClientLifecycleEvents.CLIENT_STOPPING.register {
             RPCClient.stop()
@@ -64,14 +64,14 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
     }
 
     fun updateDiscordRPC() {
-        if (!Config.rpcEnabled) {
+        /* if (!Config.rpcEnabled) {
             RPCClient.stop()
             skyblockJoin = null
             return
-        }
+        } */
 
-        if (!SkyBlockTracker.isOnSkyBlock) {
-            RPCClient.stop()
+        if (!SkyTracker.isOnSkyBlock) {
+        //    RPCClient.stop()
             skyblockJoin = null
             return
         }
@@ -80,7 +80,7 @@ object SkyWeeb : ClientModInitializer, Logger by LoggerFactory.getLogger("SkyWee
             skyblockJoin = System.currentTimeMillis()
         }
 
-        RPCClient.start()
+        // RPCClient.start()
 
         val activeLogoId = when (Config.activeSeries) {
             Series.BLEACH -> Config.bleachIcon.id
