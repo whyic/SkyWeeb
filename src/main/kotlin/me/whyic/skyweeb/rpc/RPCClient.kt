@@ -3,23 +3,118 @@ package me.whyic.skyweeb.rpc
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import org.slf4j.LoggerFactory
+import java.io.Closeable
+import java.io.DataInputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.io.RandomAccessFile
+import java.net.StandardProtocolFamily
+import java.net.UnixDomainSocketAddress
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.nio.channels.Channels
+import java.nio.channels.SocketChannel
 import java.util.concurrent.CompletableFuture
 
 data class DiscordButton(val label: String, val url: String)
 
 object RPCClient {
-    private var pipe: RandomAccessFile? = null
+    private var connection: Closeable? = null
+    private var input: DataInputStream? = null
+    private var output: OutputStream? = null
     private val logger = LoggerFactory.getLogger("SkyWeeb-IPC")
-    private var isConnected = false
-    private var isConnecting = false
+    @Volatile private var isConnected = false
+    @Volatile private var isConnecting = false
+    private var lastFailureLogged = false
 
-    // TODO: confirm this is the correct/current Discord application Client ID —
-    // it doesn't match either value seen elsewhere in the codebase (Config.kt default,
-    // or what was showing in your in-game config screen). Only one hardcoded value
-    // is actually used at runtime, and this is it.
+    private val isWindows = System.getProperty("os.name").orEmpty().lowercase().contains("win")
+
+    /** Directories where Discord may place its discord-ipc-N socket on Linux/macOS. */
+    private fun unixSocketDirs(): List<String> {
+        val dirs = mutableListOf<String>()
+        val env = System.getenv()
+        listOf("XDG_RUNTIME_DIR", "TMPDIR", "TMP", "TEMP").forEach { key ->
+            env[key]?.takeIf { it.isNotBlank() }?.let { dirs.add(it.trimEnd('/')) }
+        }
+        dirs.add("/tmp")
+
+        val runtime = env["XDG_RUNTIME_DIR"]?.takeIf { it.isNotBlank() }?.trimEnd('/')
+        if (runtime != null) {
+            dirs.add("$runtime/app/com.discordapp.Discord")      // Flatpak
+            dirs.add("$runtime/app/com.discordapp.DiscordCanary")
+            dirs.add("$runtime/snap.discord")                     // Snap
+            dirs.add("$runtime/snap.discord-canary")
+            // Vesktop / Equibop (arRPC). Native installs use $runtime directly (already covered above).
+            dirs.add("$runtime/app/dev.vencord.Vesktop")
+            dirs.add("$runtime/.flatpak/dev.vencord.Vesktop/xdg-run")
+            dirs.add("$runtime/app/io.github.equicord.equibop")
+            dirs.add("$runtime/.flatpak/io.github.equicord.equibop/xdg-run")
+        }
+        return dirs.distinct()
+    }
+
+    private fun openWindowsPipe(index: Int): Boolean {
+        val raf = RandomAccessFile("\\\\.\\pipe\\discord-ipc-$index", "rw")
+        connection = raf
+        input = DataInputStream(FileInputStream(raf.fd))
+        output = FileOutputStream(raf.fd)
+        return true
+    }
+
+    private fun openUnixSocket(path: String): Boolean {
+        val file = File(path)
+        if (!file.exists()) return false
+        val channel = SocketChannel.open(StandardProtocolFamily.UNIX)
+        try {
+            channel.connect(UnixDomainSocketAddress.of(path))
+        } catch (e: Exception) {
+            try { channel.close() } catch (ignored: Exception) {}
+            throw e
+        }
+        connection = channel
+        input = DataInputStream(Channels.newInputStream(channel))
+        output = Channels.newOutputStream(channel)
+        return true
+    }
+
+    /** Tries discord-ipc-0..9 in every known location and returns true once a connection is open. */
+    private fun openConnection(): Boolean {
+        var lastError: Exception? = null
+        for (i in 0..9) {
+            if (isWindows) {
+                try {
+                    if (openWindowsPipe(i)) return true
+                } catch (e: Exception) {
+                    lastError = e
+                }
+            } else {
+                for (dir in unixSocketDirs()) {
+                    val path = "$dir/discord-ipc-$i"
+                    try {
+                        if (openUnixSocket(path)) {
+                            logger.info("Connected to Discord IPC at {}", path)
+                            return true
+                        }
+                    } catch (e: Exception) {
+                        lastError = e
+                        logger.debug("Failed to open {}: {}", path, e.toString())
+                    }
+                }
+            }
+        }
+        if (!lastFailureLogged) {
+            lastFailureLogged = true
+            logger.warn(
+                "Could not find a Discord IPC socket (is Discord running?). Last error: {}",
+                lastError?.toString() ?: "none found"
+            )
+        }
+        return false
+    }
+
+
     private const val CLIENT_ID = "1439506215095898142"
 
     fun start() {
@@ -28,7 +123,10 @@ object RPCClient {
         isConnecting = true
         CompletableFuture.runAsync {
             try {
-                pipe = RandomAccessFile("\\\\.\\pipe\\discord-ipc-0", "rw")
+                if (!openConnection()) {
+                    stop()
+                    return@runAsync
+                }
 
                 val handshake = JsonObject()
                 handshake.addProperty("v", 1)
@@ -38,9 +136,10 @@ object RPCClient {
                 readPayload()
 
                 isConnected = true
-                logger.info(">>> RAW PIPE CONNECTED! Discord handshake accepted. <<<")
+                lastFailureLogged = false
+                logger.info("Discord IPC handshake accepted.")
             } catch (e: Exception) {
-                logger.error(">>> RAW PIPE FAILED <<<")
+                logger.error("Discord IPC handshake failed", e)
                 stop()
             } finally {
                 isConnecting = false
@@ -52,14 +151,16 @@ object RPCClient {
         isConnected = false
         isConnecting = false
         try {
-            pipe?.close()
+            connection?.close()
         } catch (e: Exception) {
         }
-        pipe = null
+        connection = null
+        input = null
+        output = null
     }
 
     fun updateActivity(action: PresenceBuilder.() -> Unit) {
-        if (!isConnected || pipe == null) return
+        if (!isConnected || output == null) return
 
         try {
             val builder = PresenceBuilder()
@@ -77,7 +178,7 @@ object RPCClient {
 
             sendPayload(1, payload.toString())
         } catch (e: Exception) {
-            logger.error(">>> FAILED TO SEND PAYLOAD <<<", e)
+            logger.error("Failed to send Discord presence payload", e)
             stop()
         }
     }
@@ -88,16 +189,17 @@ object RPCClient {
         buffer.putInt(opcode)
         buffer.putInt(bytes.size)
         buffer.put(bytes)
-        pipe?.write(buffer.array())
+        output?.write(buffer.array())
+        output?.flush()
     }
 
     private fun readPayload() {
         val header = ByteArray(8)
-        pipe?.readFully(header)
+        input?.readFully(header)
         val buffer = ByteBuffer.wrap(header).order(ByteOrder.LITTLE_ENDIAN)
         val length = buffer.getInt(4)
         val data = ByteArray(length)
-        pipe?.readFully(data)
+        input?.readFully(data)
     }
 
     class PresenceBuilder {
