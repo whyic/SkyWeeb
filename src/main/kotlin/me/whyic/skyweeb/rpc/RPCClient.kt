@@ -46,6 +46,11 @@ object RPCClient {
             dirs.add("$runtime/app/com.discordapp.DiscordCanary")
             dirs.add("$runtime/snap.discord")                     // Snap
             dirs.add("$runtime/snap.discord-canary")
+            // Vesktop / Equibop (arRPC). Native installs use $runtime directly (already covered above).
+            dirs.add("$runtime/app/dev.vencord.Vesktop")
+            dirs.add("$runtime/.flatpak/dev.vencord.Vesktop/xdg-run")
+            dirs.add("$runtime/app/io.github.equicord.equibop")
+            dirs.add("$runtime/.flatpak/io.github.equicord.equibop/xdg-run")
         }
         return dirs.distinct()
     }
